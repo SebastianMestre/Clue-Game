@@ -1,5 +1,5 @@
+#include <stdbool.h>
 #include <stdio.h>
-#define ever (;;)
 
 const int MIN_PLAYER_COUNT = 3;
 const int MIN_PLAYER_COUNT = 6;
@@ -7,7 +7,7 @@ int playerCount = 0;
 
 int main(){
 
-  for ever {
+  while (true) {
     scanf("%d\n", &playerCount);
     if (playerCount < MIN_PLAYER_COUNT) {
       printf("Se requieren al menos %d jugadores", MIN_PLAYER_COUNT);
