@@ -1,9 +1,9 @@
 # Clue-Game
 El juego Clue, implementado en C. Proyecto escolar.
 
-##Materia:
+## Materia:
 Taller de Programación (Federico Guimpel)
 
-##Participantes:
-*Martinez Castro, Gastón
-*Mestre, Sebastián
+## Participantes:
+* Martinez Castro, Gastón
+* Mestre, Sebastián
