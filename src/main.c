@@ -1,13 +1,67 @@
 #include <stdbool.h>
 #include <stdio.h>
+#include <time.h>
+
+#define swap(a,b,T) do{T temp = a; a = b; b = temp}while(0)
 
 const int MIN_PLAYER_COUNT = 3;
-const int MIN_PLAYER_COUNT = 6;
+const int MAX_PLAYER_COUNT = 6;
+const int SUSPECT_COUNT = 6;
+const int WEAPON_COUNT = 6;
+const int PLACE_COUNT = 9;
+
+struct jugador{
+  int location;
+  // TODO: reemplazar int[] por array dinamico de cartas
+  int suspects[SUSPECT_COUNT + 1];
+  int weapons[WEAPON_COUNT + 1];
+  int places[PLACE_COUNT + 1];
+};
+
+typedef struct jugador player_t;
+
+
+player_t players[MAX_PLAYER_COUNT];
 int playerCount = 0;
 
+const char PLACE_NAMES [30][] = {
+  "Cocina", "Patio", "Spa",
+  "Teatro", "Salon", "Observatorio",
+  "Vestibulo", "Habitacion", "Comedor"
+};
+
+const char SUSPECT_NAMES [30][] = {
+  "Senorita Escarlata", "Coronel Mostaza",
+  "Profesor Moradillo", "Senora Azulino",
+  "Senor Verdi", "Senora Blanco"
+};
+
+const char WEAPON_NAMES [30][] = {
+  "revolver", "cuchillo", "lazo",
+  "candelabro", "llave inglesa", "tubo de plomo"
+};
+
+int* makeIntList(int start, int end){
+  int len = end - start;
+  int* res = malloc(len * sizeof(int));
+  for(int i = 0; i < len; i++){
+    res[i] = i + start;
+  }
+  return res;
+}
+
+void shuffleIntList(int* p_list, int len){
+  for(int i = 1; i < len; i++){
+    int ran = rand() % i;
+    swap(p_list[i], p_list[ran], int);
+  }
+}
+
 int main(){
+  srand(time(NULL));
 
   while (true) {
+    puts("Ingrese la cantidad de jugadores :");
     scanf("%d\n", &playerCount);
     if (playerCount < MIN_PLAYER_COUNT) {
       printf("Se requieren al menos %d jugadores", MIN_PLAYER_COUNT);
@@ -17,6 +71,16 @@ int main(){
       break;
     }
   }
+
+  int *randlist = makeIntList(0, SUSPECT_COUNT);
+  shuffleIntList(randlist, SUSPECT_COUNT);
+
+  for(int i = 0; i < SUSPECT_COUNT; i++){
+    players[i % playerCount].suspects[i / playerCount] = ;
+  }
+
+  free(randlist);
+
 
   printf("%d\n", playerCount);
 
