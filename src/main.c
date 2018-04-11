@@ -5,29 +5,13 @@
 
 #include "random_list.h"
 #include "macros.h"
-
-// const int MIN_PLAYER_COUNT = 3;
-// const int MAX_PLAYER_COUNT = 6;
-// const int SUSPECT_COUNT = 6;
-// const int WEAPON_COUNT = 6;
-// const int PLACE_COUNT = 9;
+#include "player.h"
 
 #define MIN_PLAYER_COUNT 3
 #define MAX_PLAYER_COUNT 6
 #define SUSPECT_COUNT 6
 #define WEAPON_COUNT 6
 #define PLACE_COUNT 9
-
-struct jugador{
-  int location;
-  // TODO: reemplazar int[] por array dinamico de cartas
-  int suspects[SUSPECT_COUNT + 1];
-  int weapons[WEAPON_COUNT + 1];
-  int places[PLACE_COUNT + 1];
-};
-
-typedef struct jugador player_t;
-
 
 player_t players[MAX_PLAYER_COUNT];
 int playerCount = 0;
