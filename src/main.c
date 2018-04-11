@@ -3,7 +3,8 @@
 #include <stdio.h>
 #include <time.h>
 
-#define swap(a,b,T) do{T temp = a; a = b; b = temp;}while(0)
+#include "random_list.h"
+#include "macros.h"
 
 // const int MIN_PLAYER_COUNT = 3;
 // const int MAX_PLAYER_COUNT = 6;
