@@ -11,14 +11,20 @@
 #define MAX_PLAYER_COUNT 6
 
 player_t players[MAX_PLAYER_COUNT];
-int playerCount = 0;
 
 int main(){
   srand(time(NULL));
 
+  unsigned int playerCount;
+
   while (true) {
     puts("Ingrese la cantidad de jugadores :");
-    scanf("%d\n", &playerCount);
+
+    char input[5];
+    scanf("%5s", input);
+    playerCount = (unsigned int) strtoul(input, NULL, 10);
+    purge_input_buffer()
+
     if (playerCount < MIN_PLAYER_COUNT) {
       printf("Se requieren al menos %d jugadores", MIN_PLAYER_COUNT);
     } else if (playerCount > MAX_PLAYER_COUNT) {
