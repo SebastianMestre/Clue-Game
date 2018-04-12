@@ -1,22 +1,8 @@
-// constants.h
+#ifndef CLUE_GAME_CONSTANTS_H
+#define CLUE_GAME_CONSTANTS_H
 
-#define SUSPECT_COUNT (sizeof(SUSPECT_NAMES) / sizeof(*SUSPECT_NAMES))
-#define WEAPON_COUNT (sizeof(WEAPON_NAMES) / sizeof(*WEAPON_NAMES))
-#define PLACE_COUNT (sizeof(PLACE_NAMES) / sizeof(*PLACE_NAMES))
+#define SUSPECT_COUNT 9
+#define WEAPON_COUNT 6
+#define PLACE_COUNT 6
 
-const char* PLACE_NAMES[] = {
-  "Cocina", "Patio", "Spa",
-  "Teatro", "Salon", "Observatorio",
-  "Vestibulo", "Habitacion", "Comedor"
-};
-
-const char* SUSPECT_NAMES[] = {
-  "Senorita Escarlata", "Coronel Mostaza",
-  "Profesor Moradillo", "Senora Azulino",
-  "Senor Verdi", "Senora Blanco"
-};
-
-const char* WEAPON_NAMES[] = {
-  "revolver", "cuchillo", "lazo",
-  "candelabro", "llave inglesa", "tubo de plomo"
-};
+#endif //CLUE_GAME_CONSTANTS_H

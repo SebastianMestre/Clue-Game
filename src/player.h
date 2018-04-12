@@ -1,7 +1,7 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include "constants.h"
+#include "constants.c"
 
 struct jugador{
   int location;
