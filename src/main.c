@@ -9,29 +9,9 @@
 
 #define MIN_PLAYER_COUNT 3
 #define MAX_PLAYER_COUNT 6
-#define SUSPECT_COUNT 6
-#define WEAPON_COUNT 6
-#define PLACE_COUNT 9
 
 player_t players[MAX_PLAYER_COUNT];
 int playerCount = 0;
-
-const char PLACE_NAMES [][30] = {
-  "Cocina", "Patio", "Spa",
-  "Teatro", "Salon", "Observatorio",
-  "Vestibulo", "Habitacion", "Comedor"
-};
-
-const char SUSPECT_NAMES [][30] = {
-  "Senorita Escarlata", "Coronel Mostaza",
-  "Profesor Moradillo", "Senora Azulino",
-  "Senor Verdi", "Senora Blanco"
-};
-
-const char WEAPON_NAMES [][30] = {
-  "revolver", "cuchillo", "lazo",
-  "candelabro", "llave inglesa", "tubo de plomo"
-};
 
 int main(){
   srand(time(NULL));
@@ -48,11 +28,14 @@ int main(){
     }
   }
 
-  int *randlist = makeIntList(0, SUSPECT_COUNT);
+  int * randlist;
+  
+  randlist = makeIntList(0, SUSPECT_COUNT);
   shuffleIntList(randlist, SUSPECT_COUNT);
 
   for(int i = 0; i < SUSPECT_COUNT; i++){
-    players[i % playerCount].suspects[i / playerCount] = 0;
+    players[i % playerCount].suspects[i / playerCount] = randlist[i];
+    players[i % playerCount].suspects[i / playerCount + 1] = -1;
   }
 
   free(randlist);
