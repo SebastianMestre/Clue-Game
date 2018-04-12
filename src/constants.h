@@ -1,3 +1,5 @@
+#ifndef CLUE_CONSTANTS_H
+#define CLUE_CONSTANTS_H
 // constants.h
 
 #define SUSPECT_COUNT (sizeof(SUSPECT_NAMES) / sizeof(*SUSPECT_NAMES))
@@ -20,3 +22,5 @@ const char* WEAPON_NAMES[] = {
   "revolver", "cuchillo", "lazo",
   "candelabro", "llave inglesa", "tubo de plomo"
 };
+
+#endif /* end of include guard: CLUE_CONSTANTS_H */
