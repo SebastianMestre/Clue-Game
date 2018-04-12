@@ -1,6 +1,6 @@
 // player.c
 
-void player_deal(){
+void player_deal(size_t playerCount){
 
   // player index (mod playerCount)
   int player_idx = 0;

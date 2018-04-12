@@ -11,11 +11,11 @@
 #define MAX_PLAYER_COUNT 6
 
 player_t players[MAX_PLAYER_COUNT];
-int playerCount = 0;
 
 int main(){
   srand(time(NULL));
 
+  int playerCount = 0;
   while (true) {
     puts("Ingrese la cantidad de jugadores :");
     scanf("%d\n", &playerCount);
@@ -28,7 +28,7 @@ int main(){
     }
   }
 
-  player_deal();
+  player_deal(playerCount);
 
   printf("%d\n", playerCount);
 
