@@ -20,26 +20,15 @@ int main(){
     puts("Ingrese la cantidad de jugadores :");
     scanf("%d\n", &playerCount);
     if (playerCount < MIN_PLAYER_COUNT) {
-      printf("Se requieren al menos %d jugadores", MIN_PLAYER_COUNT);
+      printf("Se requieren al menos %d jugadores\n", MIN_PLAYER_COUNT);
     } else if (playerCount > MAX_PLAYER_COUNT) {
-      printf("Se permiten a lo sumo %d jugadores", MAX_PLAYER_COUNT);
+      printf("Se permiten a lo sumo %d jugadores\n", MAX_PLAYER_COUNT);
     } else {
       break;
     }
   }
 
-  int * randlist;
-  
-  randlist = makeIntList(0, SUSPECT_COUNT);
-  shuffleIntList(randlist, SUSPECT_COUNT);
-
-  for(int i = 0; i < SUSPECT_COUNT; i++){
-    players[i % playerCount].suspects[i / playerCount] = randlist[i];
-    players[i % playerCount].suspects[i / playerCount + 1] = -1;
-  }
-
-  free(randlist);
-
+  player_deal();
 
   printf("%d\n", playerCount);
 

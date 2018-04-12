@@ -1,5 +1,8 @@
 #ifndef PLAYER_H
 #define PLAYER_H
+// player.h
+
+#include "constants.h"
 
 struct jugador{
   int location;
@@ -10,5 +13,7 @@ struct jugador{
 };
 
 typedef struct jugador player_t;
+
+void player_deal();
 
 #endif /* end of include guard: PLAYER_H */

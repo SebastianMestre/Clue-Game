@@ -12,7 +12,7 @@ int* makeIntList(int start, int end){
 
 void shuffleIntList(int* p_list, int len){
   for(int i = 1; i < len; i++){
-    int ran = rand() % i;
+    int ran = rand() % (i+1);
     swap(p_list[i], p_list[ran], int);
   }
 }
