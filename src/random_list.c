@@ -1,4 +1,6 @@
+#include <stdlib.h>
 #include "random_list.h"
+#include "macros.h"
 // random_list.c
 
 int* makeIntList(int start, int end){

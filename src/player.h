@@ -1,6 +1,8 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+#include "constants.h"
+
 struct jugador{
   int location;
   // TODO: reemplazar int[] por array dinamico de cartas
