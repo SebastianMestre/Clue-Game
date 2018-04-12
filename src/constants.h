@@ -1,6 +1,8 @@
 #ifndef CLUE_GAME_CONSTANTS_H
 #define CLUE_GAME_CONSTANTS_H
 
+#define DEBUG 1
+
 #define SUSPECT_COUNT 9
 #define WEAPON_COUNT 6
 #define PLACE_COUNT 6
