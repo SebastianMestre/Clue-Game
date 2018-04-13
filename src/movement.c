@@ -1,5 +1,6 @@
 #include "constants.h"
 #include "macros.h"
+#include "player.h"
 #include <stdbool.h>
 #include <stdio.h>
 
@@ -10,8 +11,9 @@ for(int i = i; i < tiradaDado; i++){ \
   if(!cpHabitaciones[aux]){ \
     tempHabitaciones[aux] == 1; \
     habitacionesAnunciadas[it++] = aux; \
-    printf("%s, ", PLACE_NAMES); \
+    printf("%s, ", PLACE_NAMES[aux]); \
 }}
+#define isdigit(n) (n > 0 && n < 10)
 
 
 int mapCorners(int corner){
@@ -29,7 +31,7 @@ int mapCorners(int corner){
   }
 }
 
-void makeAMove(player_t jugador){
+void makeAMove(player_t jugador, bool *habitaciones, size_t nHabitaciones){
   ///si pasadizo es -1 el jugador no se encuentra en una esquina y por lo tanto
   ///no se mueve por un pasadizo
   int pasadizo = mapCorners(jugador.location);
@@ -62,8 +64,16 @@ void makeAMove(player_t jugador){
   forMov(1, (aux % nHabitaciones));
   forMov(-1, (aux<0 ? nHabitaciones-aux :));
 
-  printf("\nA cual de las habitaciones se quiere mover?(Nro) ");
-  int aux; scanf("%i", &aux); ///agregar codigo para control de errores
-
-  jugador.location = habitacionesAnunciadas[aux];
+  while(1){
+    printf("\nA cual de las habitaciones se quiere mover?(Nro) ");
+    scanf("%c", &response); 
+    num = response - '1'; //de esta forma i esta indizado en 0
+    
+    if(!isdigit(num) || num >= it){
+      printf("Numeros entre 1 y %i por favor...\n", it); 
+    }
+    
+    jugador.location = habitacionesAnunciadas[num];
+    break;
+  }
 }
