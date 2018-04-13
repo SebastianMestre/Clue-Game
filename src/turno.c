@@ -9,15 +9,13 @@ aux = sizeof(list)/sizeof(int); \
 for(int i=0; i<aux; i++) \
   printf("%i%s%c", i, chklist[list[i]], (i == aux-1 ? '\n' : '\t'));
 
-#define formatInput(var, size, expression) \
-while(1){ \
+#define formatInput(var, size, expression) while(1){ \
   printf(expression); scanf("%c", &response); \
   int num = response - '1'; \
   if(!isdigit(num) || num >= size){ \
     printf("Numeros entre 1 y %i por favor...\n", size); \
-    continue; \
-  } \
-  var = num;\
+    continue; } \
+  var = num; \
   break; \
 }
 
