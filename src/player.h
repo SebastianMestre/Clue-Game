@@ -2,7 +2,10 @@
 #define PLAYER_H
 // player.h
 
+#include <stdlib.h>
+
 #include "constants.h"
+#include "random_list.h"
 
 struct jugador{
   int location;
