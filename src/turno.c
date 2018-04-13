@@ -1,8 +1,5 @@
-#include <stdio.h>
-
-#include "player.h"
-#include "constants.h"
-#include "macros.h"
+#include "turno.h"
+// turno.c
 
 #define forn(chklist, list) \
 for(int i=0; list[i] != -1; i++) \
@@ -30,8 +27,8 @@ void imprimirBaraja(player_t jugador){
   forn(WEAPON_NAMES, jugador.weapons);
 }
 
-void generarAcusacion(acusacion recipiente){
-  ///invento una struct acusacion que contiene 3 ints: uno para el sospechoso,
+void generarSospecha(sospecha_t recipiente){
+  ///invento una struct sospecha_t que contiene 3 ints: uno para el sospechoso,
   ///uno para el arma y uno para el lugar
 
   ///en constants generar un jugador que tenga todas las cartas para asi
