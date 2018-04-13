@@ -44,7 +44,10 @@ void makeAMove(player_t jugador, bool *habitaciones, size_t nHabitaciones){
       printf("'Y' o 'n' por favor...\n");
       continue;
     } else if(response == 'Y') {
-      jugador.location = pasadizo;
+      habitaciones[jugador.location] = 0;
+      habitaciones[pasadizo] = 1;
+      
+      jugador.location = pasadizo;      
       return;
     }
 
@@ -75,7 +78,10 @@ void makeAMove(player_t jugador, bool *habitaciones, size_t nHabitaciones){
       continue;
     }
     
+    habitaciones[jugador.location] = 0;    
     jugador.location = habitacionesAnunciadas[num];
+    
+    habitaciones[jugador.location] = 1;
     break;
   }
 }
