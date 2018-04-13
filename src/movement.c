@@ -59,7 +59,7 @@ void makeAMove(player_t jugador, bool *habitaciones, size_t nHabitaciones){
 
   bool cpHabitaciones[nHabitaciones];
   int habitacionesAnunciadas[nHabitaciones], it=0;
-  cp(cpHabitaciones, habitaciones, nHabitaciones);
+  cp(habitaciones, cpHabitaciones, nHabitaciones);
 
   forMov(1, (aux % nHabitaciones));
   forMov(-1, (aux<0 ? nHabitaciones-aux :));
