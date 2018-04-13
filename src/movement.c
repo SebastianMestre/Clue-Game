@@ -8,7 +8,7 @@
 
 #define forMov(mode, expression) \
 for(int i = 0; i < tiradaDado; i++){ \
-  int aux = player.location + (i*mode); \
+  int aux = player->location + (i*mode); \
   aux = expression; \
   if(!cpHabitaciones[aux]){ \
     cpHabitaciones[aux] = 1; \
@@ -20,14 +20,14 @@ int mapCorners(int corner){
   assert(corner >= 0 && corner < PLACE_COUNT);
 
   int map[PLACE_COUNT] = {
-    5,
-    -1,
-    7,
-    -1,
-    -1,
-    0,
-    -1,
-    2
+    5,  // 0
+    -1, // 1
+    7,  // 2
+    -1, // 3
+    -1, // 4
+    0,  // 5
+    -1, // 6
+    2   // 7
   };
   return map[corner];
 
@@ -45,10 +45,10 @@ int mapCorners(int corner){
   }*/
 }
 
-void makeAMove(player_t jugador, bool *habitaciones, size_t nHabitaciones){
+void makeAMove(player_t* jugador, bool *habitaciones, size_t nHabitaciones){
   ///si pasadizo es -1 el jugador no se encuentra en una esquina y por lo tanto
   ///no se mueve por un pasadizo
-  int pasadizo = mapCorners(jugador.location);
+  int pasadizo = mapCorners(jugador->location);
 
   ///la condicion del while es tal para abreviar un if y un while(1)
   while(pasadizo != -1){
@@ -58,11 +58,11 @@ void makeAMove(player_t jugador, bool *habitaciones, size_t nHabitaciones){
     if(response != 'Y' && response != 'n'){
       printf("'Y' o 'n' por favor...\n");
       continue;
-    } else if(response == 'Y') {
-      habitaciones[jugador.location] = 0;
-      habitaciones[pasadizo] = 1;
+    } else if (response == 'Y') {
+      habitaciones[jugador->location] = false;
+      habitaciones[pasadizo] = true;
 
-      jugador.location = pasadizo;
+      jugador->location = pasadizo;
       return;
     }
 
@@ -74,7 +74,7 @@ void makeAMove(player_t jugador, bool *habitaciones, size_t nHabitaciones){
   printf("Las posiciones a las que te podes mover son: \n");
 
   bool cpHabitaciones[nHabitaciones];
-  int habitacionesAnunciadas[nHabitaciones], it=0;
+  int habitacionesAnunciadas[nHabitaciones], it = 0;
   cp(habitaciones, cpHabitaciones, nHabitaciones);
 
   forMov(1, (aux % nHabitaciones));
@@ -93,10 +93,12 @@ void makeAMove(player_t jugador, bool *habitaciones, size_t nHabitaciones){
       continue;
     }
 
-    habitaciones[jugador.location] = 0;
-    jugador.location = habitacionesAnunciadas[num];
+    habitaciones[jugador->location] = false;
+    jugador->location = habitacionesAnunciadas[num];
 
-    habitaciones[jugador.location] = 1;
+    habitaciones[jugador->location] = true;
     break;
   }
 }
+
+#undef forMov

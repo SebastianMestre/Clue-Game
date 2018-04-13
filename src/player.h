@@ -18,6 +18,6 @@ struct jugador{
 
 typedef struct jugador player_t;
 
-void player_deal(size_t playerCount);
+void player_deal(player_t* players, size_t playerCount);
 
 #endif /* end of include guard: PLAYER_H */

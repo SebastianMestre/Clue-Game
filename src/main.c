@@ -10,9 +10,9 @@
 #define MIN_PLAYER_COUNT 3
 #define MAX_PLAYER_COUNT 6
 
-player_t players[MAX_PLAYER_COUNT];
 
 int main(){
+  player_t players[MAX_PLAYER_COUNT];
   srand(time(NULL));
 
   int playerCount = 0;
@@ -28,7 +28,9 @@ int main(){
     }
   }
 
-  player_deal(playerCount);
+  player_deal(players, playerCount);
+
+  
 
   printf("%d\n", playerCount);
 
