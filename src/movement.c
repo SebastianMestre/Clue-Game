@@ -5,13 +5,12 @@
 #include <stdio.h>
 
 #define forMov(mode, expression) \
-for(int i = i; i < tiradaDado; i++){ \
-  int aux = (player.location + (i*mode)); \
+for(int i = 0; i < tiradaDado; i++){ \
+  int aux = player.location + (i*mode); \
   aux = expression; \
   if(!cpHabitaciones[aux]){ \
-    tempHabitaciones[aux] == 1; \
+    cpHabitaciones[aux] = 1; \
     habitacionesAnunciadas[it++] = aux; \
-    printf("%s, ", PLACE_NAMES[aux]); \
 }}
 #define isdigit(n) (n > -1 && n < 10)
 
@@ -38,7 +37,7 @@ void makeAMove(player_t jugador, bool *habitaciones, size_t nHabitaciones){
 
   ///la condicion del while es tal para abreviar un if y un while(1)
   while(pasadizo != -1){
-    printf("Queres tomar el pasadizo hacia %s?(Y/n) ", PLACE_NAMES[pasadizo]);
+    printf("Queres tomar el pasadizo hacia %s?[Y/n] ", PLACE_NAMES[pasadizo]);
     char response; scanf("%c", &response);
 
     if(response != 'Y' && response != 'n'){
@@ -53,7 +52,6 @@ void makeAMove(player_t jugador, bool *habitaciones, size_t nHabitaciones){
   }
 
   int tiradaDado = rand() % 6 + 1; ///establecido asi por conveniencia en el for
-  ///agregar un arreglo global de habitacion que diga si esta ocupada
   printf("La tirada de dado dio: %i. ", tiradaDado);
   printf("Las posiciones a las que te podes mover son: \n");
 
@@ -62,15 +60,19 @@ void makeAMove(player_t jugador, bool *habitaciones, size_t nHabitaciones){
   cp(habitaciones, cpHabitaciones, nHabitaciones);
 
   forMov(1, (aux % nHabitaciones));
-  forMov(-1, (aux<0 ? nHabitaciones-aux :));
+  forMov(-1, (aux<0 ? nHabitaciones-aux : aux));
+  
+  for(int i=0; i<it; i++)
+    printf("%c%c", habitacionesAnunciadas[i], (i == it-1 ? '\n' : ','));
 
   while(1){
-    printf("\nA cual de las habitaciones se quiere mover?(Nro) ");
+    printf("A cual de las habitaciones se quiere mover?[Nro] ");
     scanf("%c", &response); 
-    num = response - '1'; //de esta forma i esta indizado en 0
+    int num = response - '1'; //de esta forma i queda indizado en 0
     
     if(!isdigit(num) || num >= it){
       printf("Numeros entre 1 y %i por favor...\n", it); 
+      continue;
     }
     
     jugador.location = habitacionesAnunciadas[num];
