@@ -1,10 +1,5 @@
-#include <stdbool.h>
-#include <stdio.h>
-#include <assert.h>
-
-#include "constants.h"
-#include "macros.h"
-#include "player.h"
+#include "movement.h"
+// movement.c
 
 #define forMov(mode, expression) \
 for(int i = 0; i < tiradaDado; i++){ \
