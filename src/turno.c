@@ -40,7 +40,7 @@ void generarAcusacion(acusacion recipiente){
   ///poder usar la funcion imprimirBaraja para imprimir SUSPECT_NAMES, PLACE_NAMES y WEAPON_NAMES
   imprimirBaraja(mazo);
 
-  printf("Selecciona ahora, utilizando indices, un sospechoso, habitacion");
+  printf("\n\nSelecciona ahora, utilizando indices, un sospechoso, habitacion");
   printf(" y arma para tu acusacion...\n");
 
   char response;
