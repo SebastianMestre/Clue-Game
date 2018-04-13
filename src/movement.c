@@ -1,8 +1,9 @@
+#include <stdbool.h>
+#include <stdio.h>
+
 #include "constants.h"
 #include "macros.h"
 #include "player.h"
-#include <stdbool.h>
-#include <stdio.h>
 
 #define forMov(mode, expression) \
 for(int i = 0; i < tiradaDado; i++){ \
@@ -12,7 +13,6 @@ for(int i = 0; i < tiradaDado; i++){ \
     cpHabitaciones[aux] = 1; \
     habitacionesAnunciadas[it++] = aux; \
 }}
-#define isdigit(n) (n > -1 && n < 10)
 
 
 int mapCorners(int corner){
