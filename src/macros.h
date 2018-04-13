@@ -8,4 +8,6 @@
 
 #define cp(source, dest, size) for(int i=0; i<size; i++) dest[i] = source[i]
 
+#define isdigit(x) (x>-1 && x<10)
+
 #endif /* end of include guard: CLUE_MACROS_H */

@@ -1,8 +1,9 @@
+#include <stdbool.h>
+#include <stdio.h>
+
 #include "constants.h"
 #include "macros.h"
 #include "player.h"
-#include <stdbool.h>
-#include <stdio.h>
 
 #define forMov(mode, expression) \
 for(int i = 0; i < tiradaDado; i++){ \
@@ -12,7 +13,6 @@ for(int i = 0; i < tiradaDado; i++){ \
     cpHabitaciones[aux] = 1; \
     habitacionesAnunciadas[it++] = aux; \
 }}
-#define isdigit(n) (n > -1 && n < 10)
 
 
 int mapCorners(int corner){
@@ -44,7 +44,10 @@ void makeAMove(player_t jugador, bool *habitaciones, size_t nHabitaciones){
       printf("'Y' o 'n' por favor...\n");
       continue;
     } else if(response == 'Y') {
-      jugador.location = pasadizo;
+      habitaciones[jugador.location] = 0;
+      habitaciones[pasadizo] = 1;
+      
+      jugador.location = pasadizo;      
       return;
     }
 
@@ -75,7 +78,10 @@ void makeAMove(player_t jugador, bool *habitaciones, size_t nHabitaciones){
       continue;
     }
     
+    habitaciones[jugador.location] = 0;    
     jugador.location = habitacionesAnunciadas[num];
+    
+    habitaciones[jugador.location] = 1;
     break;
   }
 }
