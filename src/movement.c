@@ -1,5 +1,6 @@
 #include <stdbool.h>
 #include <stdio.h>
+#include <assert.h>
 
 #include "constants.h"
 #include "macros.h"
@@ -16,7 +17,21 @@ for(int i = 0; i < tiradaDado; i++){ \
 
 
 int mapCorners(int corner){
-  switch (corner) {
+  assert(corner >= 0 && corner < PLACE_COUNT);
+
+  int map[PLACE_COUNT] = {
+    5,
+    -1,
+    7,
+    -1,
+    -1,
+    0,
+    -1,
+    2
+  };
+  return map[corner];
+
+  /*switch (corner) {
     case 0:
       return 5;
     case 2:
@@ -27,7 +42,7 @@ int mapCorners(int corner){
       return 2;
     default:
       return -1;
-  }
+  }*/
 }
 
 void makeAMove(player_t jugador, bool *habitaciones, size_t nHabitaciones){
@@ -46,8 +61,8 @@ void makeAMove(player_t jugador, bool *habitaciones, size_t nHabitaciones){
     } else if(response == 'Y') {
       habitaciones[jugador.location] = 0;
       habitaciones[pasadizo] = 1;
-      
-      jugador.location = pasadizo;      
+
+      jugador.location = pasadizo;
       return;
     }
 
@@ -64,23 +79,23 @@ void makeAMove(player_t jugador, bool *habitaciones, size_t nHabitaciones){
 
   forMov(1, (aux % nHabitaciones));
   forMov(-1, (aux<0 ? nHabitaciones-aux : aux));
-  
+
   for(int i=0; i<it; i++)
     printf("%c%c", habitacionesAnunciadas[i], (i == it-1 ? '\n' : ','));
 
   while(1){
     printf("A cual de las habitaciones se quiere mover?[Nro] ");
-    scanf("%c", &response); 
+    scanf("%c", &response);
     int num = response - '1'; //de esta forma i queda indizado en 0
-    
+
     if(!isdigit(num) || num >= it){
-      printf("Numeros entre 1 y %i por favor...\n", it); 
+      printf("Numeros entre 1 y %i por favor...\n", it);
       continue;
     }
-    
-    habitaciones[jugador.location] = 0;    
+
+    habitaciones[jugador.location] = 0;
     jugador.location = habitacionesAnunciadas[num];
-    
+
     habitaciones[jugador.location] = 1;
     break;
   }
