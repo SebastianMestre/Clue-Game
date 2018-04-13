@@ -13,7 +13,7 @@ for(int i = i; i < tiradaDado; i++){ \
     habitacionesAnunciadas[it++] = aux; \
     printf("%s, ", PLACE_NAMES[aux]); \
 }}
-#define isdigit(n) (n > 0 && n < 10)
+#define isdigit(n) (n > -1 && n < 10)
 
 
 int mapCorners(int corner){
