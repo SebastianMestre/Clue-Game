@@ -5,22 +5,20 @@
 #include "macros.h"
 
 #define forn(chklist, list) \
-aux = sizeof(list)/sizeof(int); \
-for(int i=0; i<aux; i++) \
-  printf("%i%s%c", i, chklist[list[i]], (i == aux-1 ? '\n' : '\t'));
+for(int i=0; list[i] != -1; i++) \
+  printf("%i %s%c", i, chklist[list[i]], (list[i+1] == -1 ? '\n' : '\t'));
 
 #define formatInput(var, size, expression) while(1){ \
   printf(expression); scanf("%c", &response); \
   int num = response - '1'; \
   if(!isdigit(num) || num >= size){ \
-    printf("Numeros entre 1 y %i por favor...\n", size); \
+    printf("Numeros entre 1 y %i, por favor...\n", size); \
     continue; } \
   var = num; \
   break; \
 }
 
 void imprimirBaraja(player_t jugador){
-  int aux;
 
   printf("Sospechosos en mano / vistos:\n");
   forn(SUSPECT_NAMES, jugador.suspects);
