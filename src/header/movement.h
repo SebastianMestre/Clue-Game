@@ -1,15 +1,6 @@
-#ifndef MOVEMENT_H
-#define MOVEMENT_H
-// movement.h
-
-#include <stdbool.h>
-#include <stdio.h>
-#include <assert.h>
-
-#include "constants.h"
-#include "macros.h"
-#include "player.h"
-
-void makeAMove(player_t player, bool *habitaciones, size_t nHabitaciones);
-
-#endif
+int move_possible (
+  int *arr_out,
+  int step_count,
+  struct player* player_in,
+  struct map* map_in
+);

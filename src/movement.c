@@ -1,79 +1,44 @@
-#include "movement.h"
-// movement.c
+// movement.h
 
-#define forMov(mode, expression) \
-for(int i = 0; i < tiradaDado; i++){ \
-  int aux = player->location + (i*mode); \
-  aux = expression; \
-  if(!cpHabitaciones[aux]){ \
-    cpHabitaciones[aux] = 1; \
-    habitacionesAnunciadas[it++] = aux; \
-}}
+#include "player.h"
+#include "map.h"
 
-int map_pasadizo(struct map* , struct player*){
-  assert(player->location >= 0);
-  assert(player->location <  map->size);
+int move_possible (
+  int *arr_out,
+  int step_count,
+  struct player* player_in,
+  struct map* map_in
+){
+  int *temp = malloc(sizeof(int) * map_in->size);
+  int size = 0;
 
-  return map->pasadizos[player->location];
-}
+  // Duplicacion de codigo. esto se podria pasar a una funcion...
+  for(int i = 1, it = player_in->location, ; i < dado; i++){
+    // operacion en modulo, ya que el mapa es un anillo
+    it = it + 1 % map_in->size;
 
-void makeAMove(player_t* jugador, bool *habitaciones, size_t nHabitaciones){
-  ///si pasadizo es -1 el jugador no se encuentra en una esquina y por lo tanto
-  ///no se mueve por un pasadizo
-  int pasadizo = mapCorners(jugador->location);
-
-  ///la condicion del while es tal para abreviar un if y un while(1)
-  while(pasadizo != -1){
-    printf("Queres tomar el pasadizo hacia %s?[Y/n] ", PLACE_NAMES[pasadizo]);
-    char response; scanf("%c", &response);
-
-    if(response != 'Y' && response != 'n'){
-      printf("'Y' o 'n' por favor...\n");
-      continue;
-    } else if (response == 'Y') {
-      habitaciones[jugador->location] = false;
-      habitaciones[pasadizo] = true;
-
-      jugador->location = pasadizo;
-      return;
+    if(!map_occupied(map_in, it)){
+      temp[size++] = it;
     }
-
-    break;
   }
 
-  int tiradaDado = rand() % 6 + 1; ///establecido asi por conveniencia en el for
-  printf("La tirada de dado dio: %i. ", tiradaDado);
-  printf("Las posiciones a las que te podes mover son: \n");
+  for (int i = 1, it = player_in->location; i < dado; i++) {
+    /* HACK: evitamos el comportamien raro del modulo de nros
+     * negativos en C sumando la identidad aditiva del modulo
+     */
+    it = (it - 1 + map_in->size) % map_in->size;
 
-  bool cpHabitaciones[nHabitaciones];
-  int habitacionesAnunciadas[nHabitaciones], it = 0;
-  habitacionesAnunciadas[it++] = jugador->location;
-  cp(habitaciones, cpHabitaciones, nHabitaciones);
-
-  forMov(1, (aux % nHabitaciones));
-  forMov(-1, (aux<0 ? nHabitaciones-aux : aux));
-
-  for(int i=0; i<it; i++)
-    printf("%s%c", PLACE_NAMES[habitacionesAnunciadas[i]], (i == it-1 ? '\n' : ','));
-
-  int num;
-  formatInput(num, it, "A cual de las habitaciones se quiere mover?[Nro] ");
-  /*while(1){
-    printf();
-    scanf("%c", &response);
-    int num = response - '1'; //de esta forma i queda indizado en 0
-
-    if(!isdigit(num) || num >= it){
-      printf("Numeros entre 1 y %i por favor...\n", it);
-      continue;
+    if (!map_occupied(map_in, it)) {
+      temp[size++] = it;
     }
+  }
 
-    break;
-  }*/
-  habitaciones[jugador->location] = false;
-  jugador->location = habitacionesAnunciadas[num];
+  arr_out = malloc(sizeof(int) * size);
+  for(int i = 0; i < size; i++){
+    arr_out[i] = temp[i];
+  }
 
-  habitaciones[jugador->location] = true;
+  free(temp);
+
+  return size;
 }
-
-#undef forMov
