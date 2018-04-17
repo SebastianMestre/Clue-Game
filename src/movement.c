@@ -10,34 +10,11 @@ for(int i = 0; i < tiradaDado; i++){ \
     habitacionesAnunciadas[it++] = aux; \
 }}
 
+int map_pasadizo(struct map* , struct player*){
+  assert(player->location >= 0);
+  assert(player->location <  map->size);
 
-int mapCorners(int corner){
-  assert(corner >= 0 && corner < PLACE_COUNT);
-
-  int map[PLACE_COUNT] = {
-    5,  // 0
-    -1, // 1
-    7,  // 2
-    -1, // 3
-    -1, // 4
-    0,  // 5
-    -1, // 6
-    2   // 7
-  };
-  return map[corner];
-
-  /*switch (corner) {
-    case 0:
-      return 5;
-    case 2:
-      return 7;
-    case 5:
-      return 0;
-    case 7:
-      return 2;
-    default:
-      return -1;
-  }*/
+  return map->pasadizos[player->location];
 }
 
 void makeAMove(player_t* jugador, bool *habitaciones, size_t nHabitaciones){
@@ -70,16 +47,19 @@ void makeAMove(player_t* jugador, bool *habitaciones, size_t nHabitaciones){
 
   bool cpHabitaciones[nHabitaciones];
   int habitacionesAnunciadas[nHabitaciones], it = 0;
+  habitacionesAnunciadas[it++] = jugador->location;
   cp(habitaciones, cpHabitaciones, nHabitaciones);
 
   forMov(1, (aux % nHabitaciones));
   forMov(-1, (aux<0 ? nHabitaciones-aux : aux));
 
   for(int i=0; i<it; i++)
-    printf("%c%c", habitacionesAnunciadas[i], (i == it-1 ? '\n' : ','));
+    printf("%s%c", PLACE_NAMES[habitacionesAnunciadas[i]], (i == it-1 ? '\n' : ','));
 
-  while(1){
-    printf("A cual de las habitaciones se quiere mover?[Nro] ");
+  int num;
+  formatInput(num, it, "A cual de las habitaciones se quiere mover?[Nro] ");
+  /*while(1){
+    printf();
     scanf("%c", &response);
     int num = response - '1'; //de esta forma i queda indizado en 0
 
@@ -88,12 +68,12 @@ void makeAMove(player_t* jugador, bool *habitaciones, size_t nHabitaciones){
       continue;
     }
 
-    habitaciones[jugador->location] = false;
-    jugador->location = habitacionesAnunciadas[num];
-
-    habitaciones[jugador->location] = true;
     break;
-  }
+  }*/
+  habitaciones[jugador->location] = false;
+  jugador->location = habitacionesAnunciadas[num];
+
+  habitaciones[jugador->location] = true;
 }
 
 #undef forMov

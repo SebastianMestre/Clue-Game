@@ -10,4 +10,15 @@
 
 #define isdigit(x) ((x)>-1 && (x)<10)
 
+#define formatInput(var, maxvalue, expression) while(1){ \
+  printf(expression); \
+  char response; scanf("%c", &response); \
+  int num = response - '1'; \
+  if(!isdigit(num) || num >= maxvalue){ \
+    printf("Numeros entre 1 y %i, por favor...\n", maxvalue); \
+    continue; } \
+  var = num; \
+  break; \
+}
+
 #endif /* end of include guard: CLUE_MACROS_H */

@@ -5,26 +5,17 @@
 for(int i=0; list[i] != -1; i++) \
   printf("%i %s%c", i, chklist[list[i]], (list[i+1] == -1 ? '\n' : '\t'));
 
-#define formatInput(var, size, expression) while(1){ \
-  printf(expression); scanf("%c", &response); \
-  int num = response - '1'; \
-  if(!isdigit(num) || num >= size){ \
-    printf("Numeros entre 1 y %i, por favor...\n", size); \
-    continue; } \
-  var = num; \
-  break; \
-}
 
 void imprimirBaraja(player_t jugador){
 
   printf("Sospechosos en mano / vistos:\n");
-  forn(SUSPECT_NAMES, jugador.suspects);
+  forn(SUSPECT_NAMES, jugador.suspect);
 
   printf("Habitaciones en mano / vistas:\n");
-  forn(PLACE_NAMES, jugador.places);
+  forn(PLACE_NAMES, jugador.place);
 
   printf("Armas en mano / vistas:\n");
-  forn(WEAPON_NAMES, jugador.weapons);
+  forn(WEAPON_NAMES, jugador.weapon);
 }
 
 void generarSospecha(sospecha_t recipiente){
@@ -40,9 +31,11 @@ void generarSospecha(sospecha_t recipiente){
 
   char response;
 
-  formatInput(recipiente.sospechoso, SUSPECT_COUNT, "Sospechoso: ");
+  formatInput(recipiente.suspect, SUSPECT_COUNT, "Sospechoso: ");
 
-  formatInput(recipiente.habitacion, PLACE_COUNT, "Habitacion: ");
+  formatInput(recipiente.place, PLACE_COUNT, "Habitacion: ");
 
-  formatInput(recipiente.arma, WEAPON_COUNT, "Arma: ");
+  formatInput(recipiente.weapon, WEAPON_COUNT, "Arma: ");
 }
+
+#undef forn

@@ -2,8 +2,6 @@
 #define CLUE_CONSTANTS_H
 // constants.h
 
-#include "player.h"
-
 #define SUSPECT_COUNT (sizeof(SUSPECT_NAMES) / sizeof(*SUSPECT_NAMES))
 #define WEAPON_COUNT (sizeof(WEAPON_NAMES) / sizeof(*WEAPON_NAMES))
 #define PLACE_COUNT (sizeof(PLACE_NAMES) / sizeof(*PLACE_NAMES))
@@ -25,6 +23,5 @@ const char* WEAPON_NAMES[] = {
   "candelabro", "llave inglesa", "tubo de plomo"
 };
 
-const player_t mazo = {-1,{0,1,2,3,4,5,-1},{0,1,2,3,4,5,-1},{0,1,2,3,4,5,6,7,8,-1}};
 
 #endif /* end of include guard: CLUE_CONSTANTS_H */
