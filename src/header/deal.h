@@ -1,3 +1,6 @@
+#ifndef DEAL_H
+#define DEAL_H
+
 // deal.h
 
 #include "player.h"
@@ -5,9 +8,11 @@
 #include "solution.h"
 
 void deal_procedure (
-  deck_t     *deck_in,
-  solution_t *solution_out,
+  struct deck *deck_in,
+  struct solution *solution_out,
   // considerar usar un array mejorado
-  player_t   *player_array_out,
-  size_t      player_array_size
+  struct player *player_array_out,
+  size_t player_array_size
 );
+
+#endif /* end of include guard: DEAL_H */

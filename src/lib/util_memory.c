@@ -1,3 +1,5 @@
+#include "util_memory.h"
+
 // memutil.c
 
 void* safe_malloc(size_t size){
@@ -11,9 +13,9 @@ void* safe_malloc(size_t size){
 void* safe_realloc(void *r, size_t size){
   size_t safe_size = size > 0 ? size : 1;
 
-  void *p = *r == NULL
+  void *p = r == NULL
     ? malloc(safe_size)
-    : realloc(t, safe_size);
+    : realloc(r, safe_size);
 
   assert(p != NULL);
 
