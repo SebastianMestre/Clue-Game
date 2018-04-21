@@ -12,12 +12,6 @@
 
 #include "../lib/util_memory.h"
 
-struct player* ui_getCurrentPlayer(
-  struct player* player_arr,
-  size_t player_arr_size,
-  size_t turn
-);
-
 void ui_init(
   struct map* map,
   struct solution* solution,
