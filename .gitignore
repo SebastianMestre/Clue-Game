@@ -52,4 +52,5 @@ Mkfile.old
 dkms.conf
 
 # Legacy code
-legacy_*
+legacy_*.c
+legacy_*.h
