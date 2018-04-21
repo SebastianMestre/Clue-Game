@@ -4,12 +4,14 @@
 // ui.h
 
 #include <stdbool.h>
+#include <stdio.h>
 
 #include "player.h"
 #include "map.h"
 #include "movement.h"
 #include "solution.h"
 
+#include "../lib/util_random_list.h"
 #include "../lib/util_memory.h"
 
 void ui_init(
@@ -33,7 +35,7 @@ void ui_movement(
   struct player* player
 );
 
-void ui_accusation(
+bool ui_accusation(
   struct solution* solution,
   struct player* player
 );
