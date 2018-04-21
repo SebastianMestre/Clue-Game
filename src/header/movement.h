@@ -1,6 +1,9 @@
 #ifndef MOVEMENT_H
 #define MOVEMENT_H
 
+#include "player.h"
+#include "map.h"
+
 int move_possible (
   int *arr_out,
   int step_count,

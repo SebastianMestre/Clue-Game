@@ -2,7 +2,7 @@
 // player.c
 
 player_t player_new(const char* name_in){
-  return (player_t){str_dupl(name_in), {0, NULL}};
+  return (player_t){str_dupl(name_in), true, {SCENE, -1}, {0, NULL}};
 }
 
 void player_pushCard(struct player* this, struct card carta){
