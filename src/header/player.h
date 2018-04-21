@@ -2,11 +2,15 @@
 #define PLAYER_H
 
 // player.h
+#include <stdbool.h>
+
 #include "../lib/util_string.h"
 #include "deck.h"
 
 typedef struct player{
   char* name;
+  bool vivo;
+  struct card location;
   struct deck hand;
 } player_t;
 
