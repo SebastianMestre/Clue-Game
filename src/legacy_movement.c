@@ -10,11 +10,11 @@ for(int i = 0; i < tiradaDado; i++){ \
     habitacionesAnunciadas[it++] = aux; \
 }}
 
-int map_pasadizo(struct map* , struct player*){
-  assert(player->location >= 0);
-  assert(player->location <  map->size);
+int map_pasadizo(struct map* , int index){
+  assert(index >= 0);
+  assert(index <  map->size);
 
-  return map->pasadizos[player->location];
+  return map->pasadizos[index];
 }
 
 void makeAMove(player_t* jugador, bool *habitaciones, size_t nHabitaciones){
