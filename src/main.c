@@ -22,12 +22,12 @@ int main(){
 
   getchar();
 
-  // while(
-  //   ui_manager(
-  //     &map, &solution, players, &player_count,
-  //     turn++
-  //   )
-  // );
+  while(
+    ui_manager(
+      &map, &solution, players, player_count,
+      turn++
+    )
+  );
 
   return 0;
 }
