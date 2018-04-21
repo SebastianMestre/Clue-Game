@@ -16,12 +16,6 @@ int main(){
 
   ui_init(&map, &solution, &players, &player_count);
 
-  for(int i = 0; i < player_count; i++){
-    puts(players[i].name);
-  }
-
-  getchar();
-
   while(
     ui_manager(
       &map, &solution, players, player_count,
