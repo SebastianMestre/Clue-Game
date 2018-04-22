@@ -105,7 +105,22 @@ bool ui_manager(
 
   // saltea el jugador ectual si este acuso incorrectamente en un turno anterior
   if(!current_player->vivo)
-    return true;
+  return true;
+  // si no quedan jugadores vivos termina el juego
+  int vivos = 0;
+  for(int i = 0; i < player_arr_size; i++){
+    if(player_arr[i].vivo){
+      vivos++;
+    }
+  }
+  if(vivos <= 1){
+    printf("Todos los jugadores menos %s han sido asesinados\n", current_player->name);
+    puts("Solucion:");
+    printf("victimario: %s\n", name_card(solution->suspect));
+    printf("arma homicida: %s\n", name_card(solution->weapon));
+    printf("escena del crimen: %s\n", name_card(solution->scene));
+    return false;
+  }
 
   printf("\n\n\tTurno de: %s\n", current_player->name);
   printf("\tLocalizacion: %s\n", name_card(current_player->location));
@@ -141,7 +156,13 @@ bool ui_manager(
       ui_suspicion(map, current_player, player_arr, player_arr_size);
     break;
     case 3:
-      return ui_accusation(solution, current_player);
+      return (
+        ui_accusation(solution, current_player) //si el jugador muere
+          // libera la posicion del mapa donde estaba antes y devuelve true
+          ? (map->ocupado[current_player->location.id] = false , true)
+          // si no, devuelve false (fuerza el juego a terminar)
+          : false
+      );
     break;
   }
   return true;
