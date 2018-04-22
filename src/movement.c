@@ -31,6 +31,9 @@ int move_possible (
       temp[size++] = it;
     }
   }
+  
+  // El jugador tambien tiene la opcion de quedarse en su posicion
+  temp[size++] = player_in->location.id;
 
   *arr_out = malloc(sizeof(int) * size);
   for(int i = 0; i < size; i++){
