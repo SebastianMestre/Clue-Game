@@ -148,7 +148,7 @@ void ui_movement(
 
   int pasadizo = map_pasadizo(map , player->location.id);
   if (pasadizo != -1 && !map_occupied(map, pasadizo)){
-    printf("Usted puede moverse por el pasadizo hacia %s\n", name_card({SCENE, pasadizo}));
+    printf("Usted puede moverse por el pasadizo hacia %s\n", name_card((struct card){SCENE, pasadizo}));
     puts("Quiere moverse? [Y/n]: ");
 
     char option;
