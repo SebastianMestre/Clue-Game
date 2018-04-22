@@ -250,7 +250,7 @@ void ui_suspicion(
     struct deck tempdeck = {0, NULL};
 
     for(int j = 0; j < player_arr[it].hand.size; j++){
-      if(player_arr[it].hand.data[j] == sospecha[player_arr[it].hand.data[j].type]){
+      if(player_arr[it].hand.data[j].id == sospecha[(int)player_arr[it].hand.data[j].type].id){
         deck_pushCard(&tempdeck, player_arr[it].hand.data[j]);
       }
     }
