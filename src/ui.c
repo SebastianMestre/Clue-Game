@@ -138,7 +138,7 @@ bool ui_manager(
       return ui_acussation(solution, current_player);
     break;
   }
-  return false;
+  return true;
 }
 
 void ui_movement(
