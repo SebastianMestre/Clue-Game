@@ -328,10 +328,10 @@ bool ui_accusation(
     (sospecha[2] == solution->scene.id);
 
   if(iguales){
-    player->vivo = false;
+    printf("\n\n\tFin del juego! victoria de %s!", player->name);
     return false;
   }else{
-    printf("\n\n\tFin del juego! victoria de %s!", player->name);
+    player->vivo = false;
     return true;
   }
 }
