@@ -14,7 +14,7 @@ int move_possible (
   // Duplicacion de codigo. esto se podria pasar a una funcion...
   for(int i = 1, it = player_in->location.id ; i < step_count; i++){
     // operacion en modulo, ya que el mapa es un anillo
-    it = it + 1 % map_in->size;
+    it = (it + 1) % map_in->size;
 
     if(!map_occupied(map_in, it)){
       temp[size++] = it;
