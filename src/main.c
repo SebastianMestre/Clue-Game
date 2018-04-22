@@ -19,6 +19,10 @@ int main(){
 
   ui_init(&map, &solution, &players, &player_count);
 
+  // printf("sos: %s\n", name_card(solution.suspect));
+  // printf("arm: %s\n", name_card(solution.weapon));
+  // printf("lug: %s\n", name_card(solution.scene));
+
   while(
     ui_manager(
       &map, &solution, players, player_count,
