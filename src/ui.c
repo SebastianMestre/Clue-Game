@@ -37,6 +37,7 @@ void ui_init(
     scanf("%1023[^\n]%*c", BUFFER);
 
     (*player_arr)[i] = player_new(BUFFER);
+    (*player_arr)[i].location.id = i;
   }
 
   int pasadizos[] = {5, -1, 7, -1, -1, 0, -1, 2, -1};
