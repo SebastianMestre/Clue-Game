@@ -358,6 +358,9 @@ bool ui_accusation(
     return false;
   }else{
     player->vivo = false;
+    printf("\n\n\tEl jugador %s acusa erroneamente y es asesinado por el asesino.\n", player->name);
+    puts("Estas eran sus cartas:");
+    imprimir_mazo(player->hand);
     return true;
   }
 }
