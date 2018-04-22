@@ -155,7 +155,7 @@ void ui_movement(
   int pasadizo = map_pasadizo(map , player->location.id);
   if (pasadizo != -1 && !map_occupied(map, pasadizo)){
     printf("Usted puede moverse por el pasadizo hacia %s\n", name_card((struct card){SCENE, pasadizo}));
-    puts("Quiere moverse? [Y/n]: ");
+    puts("Quiere moverse por el pasadizo? [Y/n]: ");
 
     char option;
     validate_option:
@@ -164,6 +164,8 @@ void ui_movement(
 
     if(option == 'Y' || option == 'y'){
       // moverse x pasadizo
+      printf("%s se mueve por el pasadizo hacia %s.\n", player->name, name_card((struct card){SCENE, pasadizo}));
+
       map->ocupado[player->location.id] = false;
       player->location.id = pasadizo;
       map->ocupado[player->location.id] = true;
@@ -200,10 +202,10 @@ void ui_movement(
   int choice;
   validate_input_movement:
 
-  scanf("%i%*c", &choice);
+  scanf("%d%*c", &choice);
 
   if(choice < 0 || choice >= movidas_posibles_size){
-    printf("Introduzca un numero entre 0 y %i por favor...\n", movidas_posibles_size);
+    printf("Introduzca un numero entre 0 y %d por favor...\n", movidas_posibles_size);
     goto validate_input_movement;
   } else {
     map->ocupado[player->location.id] = false;
