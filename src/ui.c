@@ -107,22 +107,27 @@ bool ui_manager(
   if(!current_player->vivo)
     return true;
 
+  printf("\n\n\tTurno de: %s\n", current_player->name);
+  printf("\tLocalizacion: %s\n", name_card(current_player->location));
+  putchar('\n');
+
   ui_movement(map, current_player);
 
   int num;
   char response;
 
   menu_completo:
-  printf("\t\tMENU\tPlayer: %s\n", current_player->name);
-  printf("1-Mostrar mazo\n");
-  printf("2-Generar una sospecha\n");
-  printf("3-Realizar una acusacion\n");
+  putchar('\n');
+  puts("\tQue accion desea realizar?");
+  puts("1-Mostrar mazo");
+  puts("2-Generar una sospecha");
+  puts("3-Realizar una acusacion");
 
   tomar_input:
   scanf("%c", &response);
   num = response - '0';
 
-  if(num<1 || num>3){
+  if(num < 1 || num > 3){
     puts("Numeros entre 1 y 3, por favor. Volve a intentar:");
     goto tomar_input;
   }
