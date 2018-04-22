@@ -32,9 +32,13 @@ int move_possible (
     }
   }
 
-  *arr_out = malloc(sizeof(int) * size);
-  for(int i = 0; i < size; i++){
-    (*arr_out)[i] = temp[i];
+  if(size){
+    *arr_out = malloc(sizeof(int) * size);
+    for(int i = 0; i < size; i++){
+      (*arr_out)[i] = temp[i];
+    }
+  }else{
+    *arr_out = NULL;
   }
 
   free(temp);
