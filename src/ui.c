@@ -119,7 +119,7 @@ bool ui_manager(
 
   tomar_input:
   scanf("%c", &response);
-  num = response - '0'; 
+  num = response - '0';
 
   if(num<1 || num>3){
     puts("Numeros entre 1 y 3, por favor. Volve a intentar:");
@@ -135,7 +135,7 @@ bool ui_manager(
       ui_suspicion(map, current_player, player_arr, player_arr_size);
     break;
     case 3:
-      return ui_acussation(solution, current_player);
+      return ui_accusation(solution, current_player);
     break;
   }
   return true;
@@ -176,19 +176,19 @@ void ui_movement(
   int movidas_posibles_size = move_possible(&movidas_posibles, dado, player, map);
 
   puts("Las habitaciones a las que se puede mover son:");
-  
+
   for(int i=0; i<movidas_posibles_size; i++){
     printf("%s(%i)%s", deck_scenes()->data[movidas_posibles[i]], i,
           (i%3==0 || i==movidas_posibles_size-1 ? "\n" : ", "));
   }
-  
+
   puts("A que habitacion desea moverse?[Nro] ");
-  
+
   int choice;
   validate_input_movement:
-  
+
   scanf("%i%*c", &choice);
-  
+
   if(input < 0 || choice >= movidas_posibles_size){
     printf("Introduzca un numero entre 0 y %i por favor...\n", movidas_posibles_size);
     goto validate_input_movement;
@@ -197,7 +197,7 @@ void ui_movement(
     player->location.id = deck_scenes()->data[movidas_posibles[choice]].id;
     map->ocupado[player->location.id] = true;
   }
-  
+
   free(movidas_posibles);
 }
 
@@ -223,7 +223,7 @@ void ui_suspicion(
     puts("Opciones:");
     imprimir_mazo(decks[i]);
 
-    puts("Ingrese el nro de la carta que elige"); 
+    puts("Ingrese el nro de la carta que elige");
     //por ahi es algo muy especifico para cuando estemos mirando el formato de impresion pero pienso que es necesario
     int opcion;
 
@@ -237,11 +237,11 @@ void ui_suspicion(
       puts("el numero es muy alto, intenta otra vez.");
       goto validate_input_option;
     }
-    
-    sospecha[i] = decks[i].data[opcion]; 
+
+    sospecha[i] = decks[i].data[opcion];
     // arregla el problema de tener que mapear la opcion de habitacion(1 sola) a la player->location
   }
-  
+
   // diferencia entre player y el principio del arreglo de players = "turno"
   int it = player - player_arr;
   for(int i = 0; i < player_arr_size-1; i++){//no incluimos al jugador de la deduccion
