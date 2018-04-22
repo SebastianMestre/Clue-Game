@@ -208,7 +208,7 @@ void ui_suspicion(
   size_t player_arr_size
 ){
   char *msg[3] = {"sospechoso","arma","habitacion"};
-  card sospecha[3];
+  struct card sospecha[3];
 
   struct deck decks[3] = {
     *deck_suspects(),
