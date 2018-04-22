@@ -189,7 +189,7 @@ void ui_movement(
 
   scanf("%i%*c", &choice);
 
-  if(input < 0 || choice >= movidas_posibles_size){
+  if(choice < 0 || choice >= movidas_posibles_size){
     printf("Introduzca un numero entre 0 y %i por favor...\n", movidas_posibles_size);
     goto validate_input_movement;
   } else {
