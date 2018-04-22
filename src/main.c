@@ -17,10 +17,12 @@ int main(){
   ui_init(&map, &solution, &players, &player_count);
 
   while(
+    if(
     ui_manager(
       &map, &solution, players, player_count,
       turn++
-    )
+    )) // mirar DOCSTRING de ui_manager
+      break;
   );
 
   return 0;
