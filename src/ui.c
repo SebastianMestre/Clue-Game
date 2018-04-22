@@ -84,7 +84,7 @@ void ui_init(
   // y una vez mas para las posibles localizaciones
   randlist = makeIntList(0, deck_scenes()->size);
   shuffleIntList(randlist, deck_scenes()->size);
-  solution->suspect = deck_scenes()->data[randlist[0]];
+  solution->scene = deck_scenes()->data[randlist[0]];
   for(int i = 1; i < deck_scenes()->size; i++){
     player_pushCard(*player_arr + player_idx, deck_scenes()->data[randlist[i]]);
     player_idx = (player_idx + 1) % *player_arr_size;
