@@ -259,44 +259,57 @@ void ui_suspicion(
 
   // diferencia entre player y el principio del arreglo de players = "turno"
   int it = player - player_arr;
-  for(int i = 0; i < player_arr_size-1; i++){//no incluimos al jugador de la deduccion
+  struct deck tempdeck = {0, NULL};
+  int refutador = -1;
+
+  //no incluimos en la busqueda al jugador que sospecha
+  for(int i = 0; i < player_arr_size-1; i++){
     it = it + 1 % player_arr_size;
 
-    struct deck tempdeck = {0, NULL};
 
-    for(int j = 0; j < player_arr[it].hand.size; j++){
-      if(player_arr[it].hand.data[j].id == sospecha[(int)player_arr[it].hand.data[j].type].id){
-        deck_pushCard(&tempdeck, player_arr[it].hand.data[j]);
+    if(player_arr[it].vivo){
+      for(int j = 0; j < player_arr[it].hand.size; j++){
+        // si la carta actual del jugador por el que iteramos es igual a la carta de la sospeca de igual tipo
+        // HACK: uso valores casteados de un enum como indices del array sospechas
+        if(player_arr[it].hand.data[j].id == sospecha[(int)player_arr[it].hand.data[j].type].id){
+          // se agrega al mazo de evidencias 'tempdeck'
+          deck_pushCard(&tempdeck, player_arr[it].hand.data[j]);
+        }
       }
     }
 
     if(tempdeck.size){
-      //clrscreen
-      printf("jugador %s, eliga una carta para mostrar.", player_arr[it].name);
-      puts("Listo?. presione ENTER.");
-
-      getchar();
-
-      puts("Opciones:");
-      imprimir_mazo(tempdeck);
-
-      int opcion;
-      validate_pista:
-      scanf("%d%*c", &opcion);
-
-      if(opcion < 0 || opcion >= tempdeck.size){
-        printf("Numeros entre 0 y %d", tempdeck.size-1);
-        goto validate_pista;
-      }
-
-      //clrscreen
-
-      printf("Le refutan: %s\n", name_card(tempdeck.data[opcion]));
-      puts("Presione ENTER para continuar.");
-
-      getchar();
+      refutador = it;
       break;
     }
+  }
+
+  if(tempdeck.size){
+    //clrscreen
+    printf("%s tiene una pista que refuta la teoria de %s.\n", player_arr[refutador].name, player->name);
+    printf("%s, eliga una carta para mostrar.", player_arr[refutador].name);
+    puts("Listo?. presione ENTER.");
+
+    getchar();
+
+    puts("Opciones:");
+    imprimir_mazo(tempdeck);
+
+    int opcion;
+    validate_pista:
+    scanf("%d%*c", &opcion);
+
+    if(opcion < 0 || opcion >= tempdeck.size){
+      printf("Numeros entre 0 y %d", tempdeck.size-1);
+      goto validate_pista;
+    }
+
+    //clrscreen
+
+    printf("Le refutan: %s\n", name_card(tempdeck.data[opcion]));
+    puts("Presione ENTER para continuar.");
+
+    getchar();
   }
 }
 
