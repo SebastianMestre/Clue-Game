@@ -102,6 +102,10 @@ bool ui_manager(
   /// DOCSTRING: returns true when the game must end and false when the game continues
   struct player* current_player = player_arr + (turn % player_arr_size);
 
+  // saltea el jugador ectual si este acuso incorrectamente en un turno anterior
+  if(!current_player->vivo)
+    return true;
+
   ui_movement(map, current_player);
 
   int num;
