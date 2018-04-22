@@ -328,11 +328,9 @@ bool ui_accusation(
   };
 
   for(int i = 0; i < 3; i++){
-    printf("Ingrese el %s", msg[i]);
-    puts("Opciones:");
-    for(int j = 0; j < decks[i].size; j++){
-      printf("%d. %s\n", i, name_card(decks[i].data[j]));
-    }
+    printf("Ingrese el %s. Opciones:\n", msg[i]);
+
+    imprimir_mazo(decks[i]);
 
     int opcion;
 
