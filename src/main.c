@@ -30,5 +30,8 @@ int main(){
     )
   );
 
+  puts("Presione ENTER para continuar...");
+  getchar();
+
   return 0;
 }
