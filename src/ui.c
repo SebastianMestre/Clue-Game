@@ -181,11 +181,18 @@ void ui_movement(
   int* movidas_posibles;
   int movidas_posibles_size = move_possible(&movidas_posibles, dado, player, map);
 
+
+  printf("El dado rueda y da: %d\n", dado);
+
+  if(movidas_posibles == NULL){
+    puts("No te podes mover a ninguna habitacion.");
+    return;
+  }
+
   puts("Las habitaciones a las que se puede mover son:");
 
   for(int i=0; i<movidas_posibles_size; i++){
-    printf("%s(%i)%s", deck_scenes()->data[movidas_posibles[i]], i,
-          (i%3==0 || i==movidas_posibles_size-1 ? "\n" : ", "));
+    printf("%d. %s\n", i, name_card(deck_scenes()->data[movidas_posibles[i]]) );
   }
 
   puts("A que habitacion desea moverse?[Nro] ");
