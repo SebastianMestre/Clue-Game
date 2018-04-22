@@ -61,10 +61,9 @@ void ui_init(
   // se reparten el resto de las cartas de sospechoso a los jugadores
   for(int i = 1; i < deck_suspects()->size; i++){
     player_pushCard(*player_arr + player_idx, deck_suspects()->data[randlist[i]]);
-    //player_arr_size=temp por lo tanto redunda volver a hacer el modulo dado que se hace mas abajo
-    
+
     // incrementa el indice de jugador en modulo, devuelve el indice a 0 al pasar por el ultimo jugador
-    player_idx = (player_idx + 1) % player_arr_size;
+    player_idx = (player_idx + 1) % *player_arr_size;
   }
 
   // la lista se vuelve a crear con un tamano distinto mas adelante
