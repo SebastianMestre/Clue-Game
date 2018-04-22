@@ -76,7 +76,7 @@ void ui_init(
   solution->weapon = deck_weapons()->data[randlist[0]];
   for(int i = 1; i < deck_weapons()->size; i++){
     player_pushCard(*player_arr + player_idx, deck_weapons()->data[randlist[i]]);
-    player_idx = (player_idx + 1) % player_arr_size;
+    player_idx = (player_idx + 1) % *player_arr_size;
   }
   free(randlist);
 
@@ -86,7 +86,7 @@ void ui_init(
   solution->suspect = deck_scenes()->data[randlist[0]];
   for(int i = 1; i < deck_scenes()->size; i++){
     player_pushCard(*player_arr + player_idx, deck_scenes()->data[randlist[i]]);
-    player_idx = (player_idx + 1) % player_arr_size;
+    player_idx = (player_idx + 1) % *player_arr_size;
   }
   free(randlist);
 }
