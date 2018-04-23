@@ -1,12 +1,12 @@
-#include "main.h"
+#include "stddef.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
-void clear_screen(){
-  #ifdef WINDOWS
-  system("cls");
-  #else
-  system("clear");
-  #endif
-}
+#include "header/ui.h"
+#include "header/map.h"
+#include "header/player.h"
+#include "header/solution.h"
 
 int main(){
   struct map map;
