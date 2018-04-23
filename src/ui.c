@@ -10,7 +10,7 @@ void ui_init(
   int pasadizos[] = {5, -1, 7, -1, -1, 0, -1, 2, -1};
   int map_size = 9;
   *map = map_new(map_size, pasadizos);
-  
+
   // GENERACION DE PERSONAJES
   const int MIN_PLAYER_COUNT = 3;
   const int MAX_PLAYER_COUNT = 6;
@@ -36,7 +36,7 @@ void ui_init(
 
   *player_arr = safe_malloc(sizeof(**player_arr) * temp);
   *player_arr_size = temp;
-  
+
   // crea una lista de enteros con tantas entradas como habitaciones existen
   // esta lista se guarda en la "memoria dinamica"
   int* randlist = makeIntList(0, map_size);
@@ -52,10 +52,10 @@ void ui_init(
 
     (*player_arr)[i] = player_new(BUFFER);
     (*player_arr)[i].location.id = randlist[i];
-    
+
     map->ocupado[randlist[i]] = true;
   }
-  
+
   // la lista se vuelve a crear con un tamano distinto mas adelante
   // por lo que se libera la memoria reservada
   free(randlist);
@@ -67,8 +67,8 @@ void ui_init(
   int player_idx = 0;
 
   // se repite el proceso para cant de sospechosos
-  randlist = makeIntList(0, deck_weapons()->size);
-  shuffleIntList(randlist, deck_weapons()->size);
+  randlist = makeIntList(0, deck_suspects()->size);
+  shuffleIntList(randlist, deck_suspects()->size);
 
   // se selecciona el victimario como el primer elemento en el orden mezclado
   solution->suspect = deck_suspects()->data[randlist[0]];
@@ -80,7 +80,7 @@ void ui_init(
     // incrementa el indice de jugador en modulo, devuelve el indice a 0 al pasar por el ultimo jugador
     player_idx = (player_idx + 1) % *player_arr_size;
   }
-  
+
   // nuevamente liberamos las memoria ya que se utilizara mas adelante con un
   // tamaño distinto
   free(randlist);
@@ -95,7 +95,7 @@ void ui_init(
   }
   free(randlist);
 
-  // y una vez mas para las posibles localizaciones
+  // y una vez mas para las posibles escenas del crimen
   randlist = makeIntList(0, deck_scenes()->size);
   shuffleIntList(randlist, deck_scenes()->size);
   solution->scene = deck_scenes()->data[randlist[0]];
@@ -136,11 +136,19 @@ bool ui_manager(
     return false;
   }
 
+  clear_screen();
+
   printf("\n\n\tTurno de: %s\n", current_player->name);
   printf("\tLocalizacion: %s\n", name_card(current_player->location));
   putchar('\n'); // ? xd
 
   ui_movement(map, current_player);
+
+  clear_screen();
+
+  printf("\n\n\tTurno de: %s\n", current_player->name);
+  printf("\tLocalizacion: %s\n", name_card(current_player->location));
+  putchar('\n'); // ? xd
 
   int num;
   char response;
@@ -216,7 +224,7 @@ void ui_movement(
   }
   int dado = (rand() % 6) + 1;
   int* movidas_posibles;
-  // move_posible guarda en movidas_posibles las posiciones liberadas a las cuales se puede mover 
+  // move_posible guarda en movidas_posibles las posiciones liberadas a las cuales se puede mover
   int movidas_posibles_size = move_possible(&movidas_posibles, dado, player, map);
 
 
@@ -258,7 +266,7 @@ void ui_suspicion(
   struct player* player_arr,
   size_t player_arr_size
 ){
-  char *msg[3] = {"sospechoso","arma","habitacion"};
+  char *msg[3] = {"sospechoso","arma","lugar"};
   struct card sospecha[3];
 
   struct deck decks[3] = {
@@ -267,11 +275,11 @@ void ui_suspicion(
     (struct deck){0, NULL}
   };
 
-  deck_pushCard(&decks[2], player->location);
+  deck_pushCard(decks + 2, player->location);
 
   for(int i = 0; i < 3; i++){
-    printf("Ingrese el %s", msg[i]);
-    puts("Opciones:");
+    printf("Ingrese el %s. Opciones:\n", msg[i]);
+
     imprimir_mazo(decks[i]);
 
     puts("Ingrese el nro de la carta que elige");
@@ -301,33 +309,37 @@ void ui_suspicion(
   for(int i = 0; i < player_arr_size-1; i++){
     it = (it + 1) % player_arr_size;
 
-
-    // cualquiera puede refutar, de lo contrario desaparecen cartas
+    if(player_arr[it].vivo){
       for(int j = 0; j < player_arr[it].hand.size; j++){
-        // si la carta actual del jugador por el que iteramos es igual a la carta de la sospeca de igual tipo
+        // si la carta actual del jugador por el que iteramos es igual a la carta de la sospecha de igual tipo
         // HACK: uso valores casteados de un enum como indices del array sospechas
         if(player_arr[it].hand.data[j].id == sospecha[(int)player_arr[it].hand.data[j].type].id){
           // se agrega al mazo de evidencias 'tempdeck'
           deck_pushCard(&tempdeck, player_arr[it].hand.data[j]);
         }
       }
-    
+    }
 
+    // se almacena quien es el jugador que tiene la pista.
     if(tempdeck.size){
       refutador = it;
       break;
     }
   }
 
-  if(tempdeck.size){
-    //clrscreen
+  clear_screen();
+  if(refutador == -1){
+
+    puts("Nadie refuta nada...");
+  } else {
+
     printf("%s tiene una pista que refuta la teoria de %s.\n", player_arr[refutador].name, player->name);
-    printf("%s, eliga una carta para mostrar.", player_arr[refutador].name);
+    printf("%s, eliga una carta para mostrar.\n", player_arr[refutador].name);
     puts("Listo?. presione ENTER.");
 
     getchar();
 
-    puts("Opciones:");
+    puts("Opciones:\n");
     imprimir_mazo(tempdeck);
 
     int opcion;
@@ -340,13 +352,13 @@ void ui_suspicion(
       goto validate_pista;
     }
 
-
+    clear_screen();
 
     printf("Le refutan: %s\n", name_card(tempdeck.data[opcion]));
-    puts("Presione ENTER para continuar.");
-
-    getchar();
   }
+
+  puts("Presione ENTER para continuar.");
+  getchar();
 }
 
 bool ui_accusation(
@@ -388,7 +400,7 @@ bool ui_accusation(
     (sospecha[0] == solution->suspect.id)&&
     (sospecha[1] == solution->weapon.id)&&
     (sospecha[2] == solution->scene.id);
-  
+
   if(iguales){
     printf("\n\n\tFin del juego! victoria de %s!", player->name);
     return false;
@@ -397,6 +409,10 @@ bool ui_accusation(
     printf("\n\n\tEl jugador %s acusa erroneamente y es asesinado por el asesino.\n", player->name);
     puts("Estas eran sus cartas:");
     imprimir_mazo(player->hand);
+
+    puts("presione ENTER para continuar...");
+    getchar();
+
     return true;
   }
 }

@@ -1,7 +1,8 @@
+#include "util_console.h"
 // util_console.c
 
 void clear_screen(){
-  #ifdef WINDOWS
+  #ifdef _WIN32
   system("cls");
   #else
   system("clear");

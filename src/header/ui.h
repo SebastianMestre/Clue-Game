@@ -13,6 +13,7 @@
 
 #include "../lib/util_random_list.h"
 #include "../lib/util_memory.h"
+#include "../lib/util_console.h"
 
 void ui_init(
   struct map* map,
