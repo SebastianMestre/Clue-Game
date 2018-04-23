@@ -6,6 +6,12 @@ void ui_init(
   struct player** player_arr,
   size_t *player_arr_size
 ){
+  // GENERACION DE MAPA
+  int pasadizos[] = {5, -1, 7, -1, -1, 0, -1, 2, -1};
+  int map_size = 9;
+  *map = map_new(map_size, pasadizos);
+  
+  // GENERACION DE PERSONAJES
   const int MIN_PLAYER_COUNT = 3;
   const int MAX_PLAYER_COUNT = 6;
 
@@ -30,6 +36,14 @@ void ui_init(
 
   *player_arr = safe_malloc(sizeof(**player_arr) * temp);
   *player_arr_size = temp;
+  
+  // crea una lista de enteros con tantas entradas como habitaciones existen
+  // esta lista se guarda en la "memoria dinamica"
+  int* randlist = makeIntList(0, map_size);
+
+  // la lista se mezcla para crear un orden aleatorio
+  // la lista genera posiciones iniciales para los jugadores aleatorias
+  shuffleIntList(randlist, map_size);
 
   char BUFFER[1024];
   for(int i = 0; i < temp; i++){
@@ -37,24 +51,24 @@ void ui_init(
     scanf("%1023[^\n]%*c", BUFFER);
 
     (*player_arr)[i] = player_new(BUFFER);
-    (*player_arr)[i].location.id = i;
+    (*player_arr)[i].location.id = randlist[i];
+    
+    map->ocupado[randlist[i]] = true;
   }
+  
+  // la lista se vuelve a crear con un tamano distinto mas adelante
+  // por lo que se libera la memoria reservada
+  free(randlist);
 
-  int pasadizos[] = {5, -1, 7, -1, -1, 0, -1, 2, -1};
-  int map_size = 9;
-  *map = map_new(map_size, pasadizos);
-
+  // REPARTO DE CARTAS
   // indice para repartir cartas. esto evita que un jugador tenga mas de 1 carta mas que otros.
   // si se terminan de repartir las cartas de sospechoso y el ultimo jugador en recibir una
   // carta es el jugador 0, el primero en recibir una carta de arma sera el jugador 1
   int player_idx = 0;
 
-  // crea una lista de enteros con tantas entradas como sospechosos existen
-  // esta lista se guarda en la "memoria dinamica"
-  int* randlist = makeIntList(0, deck_suspects()->size);
-
-  // la lista se mezcla para crear un orden aleatorio
-  shuffleIntList(randlist, deck_suspects()->size);
+  // se repite el proceso para cant de sospechosos
+  randlist = makeIntList(0, deck_weapons()->size);
+  shuffleIntList(randlist, deck_weapons()->size);
 
   // se selecciona el victimario como el primer elemento en el orden mezclado
   solution->suspect = deck_suspects()->data[randlist[0]];
@@ -66,9 +80,9 @@ void ui_init(
     // incrementa el indice de jugador en modulo, devuelve el indice a 0 al pasar por el ultimo jugador
     player_idx = (player_idx + 1) % *player_arr_size;
   }
-
-  // la lista se vuelve a crear con un tamano distinto mas adelante
-  // por lo que se libera la memoria reservada
+  
+  // nuevamente liberamos las memoria ya que se utilizara mas adelante con un
+  // tamaño distinto
   free(randlist);
 
   // el mismo procedimiento se repite para las posibles armas
@@ -100,12 +114,12 @@ bool ui_manager(
   size_t player_arr_size,
   size_t turn
 ){
-  /// DOCSTRING: returns true when the game must end and false when the game continues
+  /// DOCSTRING: retorna true cuando el juego continua y false cuando el juego termina
   struct player* current_player = player_arr + (turn % player_arr_size);
 
   // saltea el jugador ectual si este acuso incorrectamente en un turno anterior
   if(!current_player->vivo)
-  return true;
+    return true;
   // si no quedan jugadores vivos termina el juego
   int vivos = 0;
   for(int i = 0; i < player_arr_size; i++){
@@ -113,7 +127,7 @@ bool ui_manager(
       vivos++;
     }
   }
-  if(vivos <= 1){
+  if(vivos == 1){ //el jugador actual es el unico vivo
     printf("Todos los jugadores menos %s han sido asesinados\n", current_player->name);
     puts("Solucion:");
     printf("victimario: %s\n", name_card(solution->suspect));
@@ -124,7 +138,7 @@ bool ui_manager(
 
   printf("\n\n\tTurno de: %s\n", current_player->name);
   printf("\tLocalizacion: %s\n", name_card(current_player->location));
-  putchar('\n');
+  putchar('\n'); // ? xd
 
   ui_movement(map, current_player);
 
@@ -202,6 +216,7 @@ void ui_movement(
   }
   int dado = (rand() % 6) + 1;
   int* movidas_posibles;
+  // move_posible guarda en movidas_posibles las posiciones liberadas a las cuales se puede mover 
   int movidas_posibles_size = move_possible(&movidas_posibles, dado, player, map);
 
 
@@ -226,7 +241,7 @@ void ui_movement(
   scanf("%d%*c", &choice);
 
   if(choice < 0 || choice >= movidas_posibles_size){
-    printf("Introduzca un numero entre 0 y %d por favor...\n", movidas_posibles_size);
+    printf("Introduzca un numero entre 0 y %d por favor...\n", movidas_posibles_size-1);
     goto validate_input_movement;
   } else {
     map->ocupado[player->location.id] = false;
@@ -260,7 +275,6 @@ void ui_suspicion(
     imprimir_mazo(decks[i]);
 
     puts("Ingrese el nro de la carta que elige");
-    //por ahi es algo muy especifico para cuando estemos mirando el formato de impresion pero pienso que es necesario
     int opcion;
 
     validate_input_option:
@@ -269,7 +283,7 @@ void ui_suspicion(
     if(opcion < 0){
       puts("el numero es muy bajo, intenta otra vez.");
       goto validate_input_option;
-    } else if(opcion > decks[i].size){
+    } else if(opcion >= decks[i].size){
       puts("el numero es muy alto, intenta otra vez.");
       goto validate_input_option;
     }
@@ -285,10 +299,10 @@ void ui_suspicion(
 
   //no incluimos en la busqueda al jugador que sospecha
   for(int i = 0; i < player_arr_size-1; i++){
-    it = it + 1 % player_arr_size;
+    it = (it + 1) % player_arr_size;
 
 
-    if(player_arr[it].vivo){
+    // cualquiera puede refutar, de lo contrario desaparecen cartas
       for(int j = 0; j < player_arr[it].hand.size; j++){
         // si la carta actual del jugador por el que iteramos es igual a la carta de la sospeca de igual tipo
         // HACK: uso valores casteados de un enum como indices del array sospechas
@@ -297,7 +311,7 @@ void ui_suspicion(
           deck_pushCard(&tempdeck, player_arr[it].hand.data[j]);
         }
       }
-    }
+    
 
     if(tempdeck.size){
       refutador = it;
@@ -318,6 +332,7 @@ void ui_suspicion(
 
     int opcion;
     validate_pista:
+    puts("Elija una opcion de la lista[Nro]");
     scanf("%d%*c", &opcion);
 
     if(opcion < 0 || opcion >= tempdeck.size){
@@ -325,7 +340,7 @@ void ui_suspicion(
       goto validate_pista;
     }
 
-    //clrscreen
+
 
     printf("Le refutan: %s\n", name_card(tempdeck.data[opcion]));
     puts("Presione ENTER para continuar.");
@@ -373,7 +388,7 @@ bool ui_accusation(
     (sospecha[0] == solution->suspect.id)&&
     (sospecha[1] == solution->weapon.id)&&
     (sospecha[2] == solution->scene.id);
-
+  
   if(iguales){
     printf("\n\n\tFin del juego! victoria de %s!", player->name);
     return false;
