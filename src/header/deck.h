@@ -26,7 +26,6 @@ const char* name_card(struct card card);
 
 void deck_pushCard(struct deck* this, struct card card);
 
-const struct deck* deck_master();
 const struct deck* deck_suspects();
 const struct deck* deck_weapons();
 const struct deck* deck_scenes();
